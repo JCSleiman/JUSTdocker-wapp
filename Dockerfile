@@ -5,22 +5,30 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt upgrade -y
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:ondrej/php -y
-RUN apt update && apt -y install php7.3
+RUN apt update && apt -y install php7.3 ssh
+
+# ENV vars creation
+ENV ROOTPWD=pass-root USER1PWD=pass-root1 USER2PWD=pass-root2 USER3PWD=pass-root3
+
+# Creation of users
+RUN useradd -m -p $ROOTPWD demo-root && \
+useradd -m -p $USER1PWD demo-user1 && \
+useradd -m -p $USER2PWD demo-user2 && \
+useradd -m -p $USER3PWD demo-user3
 
 # Necessary directories creation
+RUN mkdir /mnt/logs/ \
+/mnt/logs/apache2 \
+/home/demo-root/.ssh \
+/home/demo-user1/.ssh \
+/home/demo-user2/.ssh \
+/home/demo-user3/.ssh
 
-RUN mkdir /mnt/logs/ && \
-/mnt/logs/apache2 && \
-/home/demo-root && \
-/home/demo-user1 && \
-/home/demo-user2 && \
-/home/demo-user3
-
-# Creation of the users
-useradd -m -p $ROOTPWD demo-root
-useradd -m -p $USER1PWD demo-user1
-useradd -m -p $USER2PWD demo-user2
-useradd -m -p $USER3PWD demo-user3
+# Keys creation
+RUN ssh-keygen -f /home/demo-root/.ssh/id_rsa -P "" && \
+ssh-keygen -f /home/demo-user1/.ssh/id_rsa -P "" && \
+ssh-keygen -f /home/demo-user2/.ssh/id_rsa -P "" && \
+ssh-keygen -f /home/demo-user3/.ssh/id_rsa -P ""
 
 WORKDIR /usr/src/app
 
@@ -33,9 +41,6 @@ COPY ./demo.root.cronfile /var/spool/cron/crontabs/root
 COPY ./demo.user1.cronfile /var/spool/cron/crontabs/demo-user1
 COPY ./demo.user2.cronfile /var/spool/cron/crontabs/demo-user2
 COPY ./demo.user3.cronfile /var/spool/cron/crontabs/demo-user3
-
-# Passwords for the created users
-ENV ROOTPWD=demo-root
 
 #RUN a2enmod rewrite
 EXPOSE 80
