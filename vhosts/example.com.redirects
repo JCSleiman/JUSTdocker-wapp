@@ -1,0 +1,6 @@
+<Directory /usr/src/app/www/internal/>
+  <RequireAll>
+    Require all granted
+    Require not ip 189.156.179.68
+  </RequireAll>
+</Directory>

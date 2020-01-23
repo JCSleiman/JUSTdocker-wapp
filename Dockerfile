@@ -2,10 +2,10 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt upgrade -y
-RUN apt install software-properties-common -y
-RUN add-apt-repository ppa:ondrej/php -y
-RUN apt update && apt -y install php7.3 ssh
+RUN apt update && apt upgrade -y \
+&& apt install software-properties-common -y \
+&& add-apt-repository ppa:ondrej/php -y \
+&& apt update && apt -y install php7.3 ssh libapache2-mod-geoip
 
 # ENV vars creation
 ENV ROOTPWD=pass-root USER1PWD=pass-root1 USER2PWD=pass-root2 USER3PWD=pass-root3
@@ -36,7 +36,7 @@ COPY . .
 
 # Copy vhost.conf
 COPY ./vhosts/example.com.conf /etc/apache2/sites-enabled/000-default.conf
-COPY vhosts/example.com.redirects /etc/apache2/sites-enabled/aulasistemas.com.redirects
+COPY vhosts/example.com.redirects /etc/apache2/sites-enabled/example.com.redirects
 
 # copy cron files
 COPY ./demo.root.cronfile /var/spool/cron/crontabs/root
@@ -47,7 +47,6 @@ COPY ./demo.user3.cronfile /var/spool/cron/crontabs/demo-user3
 # Set correct permissions for the droot
 RUN chown -R www-data:www-data ./ && a2enmod rewrite
 
-#RUN a2enmod rewrite
 EXPOSE 80
 EXPOSE 443
 
