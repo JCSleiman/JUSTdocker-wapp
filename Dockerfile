@@ -36,6 +36,7 @@ COPY . .
 
 # Copy vhost.conf
 COPY ./vhosts/example.com.conf /etc/apache2/sites-enabled/000-default.conf
+COPY vhosts/example.com.redirects /etc/apache2/sites-enabled/aulasistemas.com.redirects
 
 # copy cron files
 COPY ./demo.root.cronfile /var/spool/cron/crontabs/root
