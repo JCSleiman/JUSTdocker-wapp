@@ -45,7 +45,7 @@ COPY ./demo.user2.cronfile /var/spool/cron/crontabs/demo-user2
 COPY ./demo.user3.cronfile /var/spool/cron/crontabs/demo-user3
 
 # Set correct permissions for the droot
-RUN chmod -R 777 ./ && chown -R www-data:www-data ./
+RUN chown -R www-data:www-data ./ && a2enmod rewrite
 
 #RUN a2enmod rewrite
 EXPOSE 80
