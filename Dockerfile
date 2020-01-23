@@ -33,6 +33,7 @@ ssh-keygen -f /home/demo-user3/.ssh/id_rsa -P ""
 WORKDIR /usr/src/app
 
 COPY . .
+
 # Copy vhost.conf
 COPY ./vhosts/example.com.conf /etc/apache2/sites-enabled/000-default.conf
 
@@ -41,6 +42,9 @@ COPY ./demo.root.cronfile /var/spool/cron/crontabs/root
 COPY ./demo.user1.cronfile /var/spool/cron/crontabs/demo-user1
 COPY ./demo.user2.cronfile /var/spool/cron/crontabs/demo-user2
 COPY ./demo.user3.cronfile /var/spool/cron/crontabs/demo-user3
+
+# Set correct permissions for the droot
+RUN chmod -R 777 ./ && chown -R www-data:www-data ./
 
 #RUN a2enmod rewrite
 EXPOSE 80
