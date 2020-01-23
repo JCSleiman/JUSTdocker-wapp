@@ -1,0 +1,1 @@
+0 0 1 * *	find /mnt/logs/apache2 -name "*.log" -type -f -mtime +30 -exec rm -f {} \;

@@ -1,0 +1,1 @@
+0 3 * * * service apache2 restart > /dev/null 2>&1
