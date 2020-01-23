@@ -34,7 +34,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 # Copy vhost.conf
-COPY ./vhosts/example.com.conf /etc/apache2/sites-enabled/
+COPY ./vhosts/example.com.conf /etc/apache2/sites-enabled/000-default.conf
 
 # copy cron files
 COPY ./demo.root.cronfile /var/spool/cron/crontabs/root
