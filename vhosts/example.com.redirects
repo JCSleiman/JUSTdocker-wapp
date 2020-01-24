@@ -12,7 +12,11 @@
 
      GeoIPEnable On
      SetEnvIf GEOIP_COUNTRY_CODE GB BlockCountry
-     SetEnvIf GEOIP_COUNTRY_CODE MX BlockCountry
+     SetEnvIf GEOIP_COUNTRY_CODE CN BlockCountry
      SetEnvIf GEOIP_COUNTRY_CODE RU BlockCountry
      Deny from env=BlockCountry
 </Directory>
+
+
+#Redirect /gone http://aulasistemas.com/gone/gone.html
+#Redirect /moved http://aulasistemas.com/moved/moved.html

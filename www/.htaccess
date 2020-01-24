@@ -4,4 +4,7 @@ RewriteEngine On
 RewriteCond %{REMOTE_ADDR} ^192\.168\.0\.0 [OR]
 #RewriteCond %{REMOTE_ADDR} ^10\..*\..*\..*
 RewriteCond %{REMOTE_ADDR} ^10\.0\.0\.0
-RewriteRule ^/(.*) http://aulasistemas.com/www/internal [NE,NC,R=301]
+RewriteRule ^/(.*) http://aulasistemas.com/internal [NE,NC,R=301]
+
+#Redirect gone gone/gone.html
+#Redirect moved moved/moved.html

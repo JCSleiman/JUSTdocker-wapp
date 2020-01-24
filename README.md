@@ -6,7 +6,7 @@ This project contains a Dockerfile that build an image that contains the next se
 - PHP7.3
 - MySQLite
 
-It't prepared to work as **aulasistemas.com** - FEEL FREE TO VISIT IT.
+It's prepared to work as **aulasistemas.com** - FEEL FREE TO VISIT IT.
 
 ## How to run the image:
 
