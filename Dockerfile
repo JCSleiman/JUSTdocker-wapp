@@ -7,42 +7,23 @@ RUN apt update && apt upgrade -y \
 && add-apt-repository ppa:ondrej/php -y \
 && apt update && apt -y install php7.3 ssh libapache2-mod-geoip
 
-# ENV vars creation
-ENV ROOTPWD=pass-root USER1PWD=pass-root1 USER2PWD=pass-root2 USER3PWD=pass-root3
-
-# Creation of users
-RUN useradd -m -p $ROOTPWD demo-root && \
-useradd -m -p $USER1PWD demo-user1 && \
-useradd -m -p $USER2PWD demo-user2 && \
-useradd -m -p $USER3PWD demo-user3
-
-# Necessary directories creation
-RUN mkdir /mnt/logs/ \
-/mnt/logs/apache2 \
-/home/demo-root/.ssh \
-/home/demo-user1/.ssh \
-/home/demo-user2/.ssh \
-/home/demo-user3/.ssh
-
-# Keys creation
-RUN ssh-keygen -f /home/demo-root/.ssh/id_rsa -P "" && \
-ssh-keygen -f /home/demo-user1/.ssh/id_rsa -P "" && \
-ssh-keygen -f /home/demo-user2/.ssh/id_rsa -P "" && \
-ssh-keygen -f /home/demo-user3/.ssh/id_rsa -P ""
-
 WORKDIR /usr/src/app
 
 COPY . .
 
-# Copy vhost.conf
-COPY ./vhosts/example.com.conf /etc/apache2/sites-enabled/000-default.conf
-COPY vhosts/example.com.redirects /etc/apache2/sites-enabled/example.com.redirects
+### SCRIPTS EXECUTION ###
 
-# copy cron files
-COPY ./demo.root.cronfile /var/spool/cron/crontabs/root
-COPY ./demo.user1.cronfile /var/spool/cron/crontabs/demo-user1
-COPY ./demo.user2.cronfile /var/spool/cron/crontabs/demo-user2
-COPY ./demo.user3.cronfile /var/spool/cron/crontabs/demo-user3
+# ENV vars and Users creation of users.
+RUN chmod +x scripts/createusers.sh && \
+./scripts/createusers.sh
+
+# Necessary folders and keys creation.
+RUN chmod +x scripts/folder-keys-creation.sh && \
+./scripts/folder-keys-creation.sh
+
+# Copy all the configuration files.
+RUN chmod +x scripts/copyfiles.sh && \
+./scripts/copyfiles.sh
 
 # Set correct permissions for the droot
 RUN chown -R www-data:www-data ./ && a2enmod rewrite
