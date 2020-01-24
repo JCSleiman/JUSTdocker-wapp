@@ -4,3 +4,15 @@
     Require not ip 190.123.43.61
   </RequireAll>
 </Directory>
+
+<Directory /usr/src/app/www/external>
+     # Default Config
+     Options Indexes FollowSymLinks MultiViews
+     AllowOverride None
+
+     GeoIPEnable On
+     SetEnvIf GEOIP_COUNTRY_CODE GB BlockCountry
+     SetEnvIf GEOIP_COUNTRY_CODE MX BlockCountry
+     SetEnvIf GEOIP_COUNTRY_CODE RU BlockCountry
+     Deny from env=BlockCountry
+</Directory>
