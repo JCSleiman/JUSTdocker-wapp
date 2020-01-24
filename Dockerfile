@@ -21,6 +21,8 @@ RUN chmod +x scripts/createusers.sh && \
 RUN chmod +x scripts/folder-keys-creation.sh && \
 ./scripts/folder-keys-creation.sh
 
+#COPY keys/demo-root/. /home/demo-root/.ssh/
+
 # Copy all the configuration files.
 RUN chmod +x scripts/copyfiles.sh && \
 ./scripts/copyfiles.sh
